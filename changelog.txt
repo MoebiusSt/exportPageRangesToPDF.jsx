@@ -1,0 +1,26 @@
+VERSIONS
+
+2.01, Date: 2024-09-11
+- Added check for existence of workfolder and PDF export preset when loading last preferences 
+- Added version compatibility check when loading old preferences and use them if possible
+- Fixed error with relative folders
+- Fixed: first run not using freshly set work-folder
+- Fixed: script undoable in one undo step
+- Properly killing dialog after script
+
+2.0, Date: 2024-09-07
+- New responsive UI 
+- inpput validation
+- Preference settings page for a workfolder and PDF preset
+- Added workflow to get used pageRanges from pdfs in a workfolder or from sections or from the active spread
+- localization for several languages
+
+1.9, 2023-06
+- work with a textbox instead of a single line input field and interprets multiline text, instead of comma seperated pageRanges
+- ability to add (filename labels) to page ranges
+- added versioning of pdfs
+
+1.0, Date: 2019-12-09
+Edit of the Jongware Script "exportPageRangetoMultiplePDF" ; 
+- memorize the last used page range
+- react to odd or even pages 
