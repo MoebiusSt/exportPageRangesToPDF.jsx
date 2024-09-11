@@ -4,9 +4,9 @@
 
 This InDesign script (tested in Adobe Indesign CC 19.5 x64, and should run in older versions too) exports page ranges to separate PDFs and manages files. It provides a flexible way to export multiple page ranges from your InDesign document to individual PDF files.
 
-## VERSION
+## Current Version
 
- v2.0, Date: 2024-09-07
+ v2.01, Date: 2024-09-11
 
 ## Features
 
