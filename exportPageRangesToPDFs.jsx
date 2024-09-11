@@ -44,6 +44,10 @@
  * Author: [Stephan Möbius]
  * Original idea: [Jongware]
  * Multi language L10N-function: Marc Autret, equalizer.js, 2012.
+ *
+ * Changelog and Script on GitHub:
+ * https://github.com/MoebiusSt/exportPageRangesToPDF
+ *
  ******************************************************************************/
  
  #targetengine 'exportPageRangesToPDF'
@@ -63,7 +67,9 @@
 // Error in button click handler :: Erreur dans le gestionnaire de clic de bouton :: Fehler im Button-Klick-Handler :: Error en el controlador de clic del botón :: Ошибка в обработчике нажатия кнопки :: خطأ في معالج النقر على الزر
 // Error in getFromDirectory :: Erreur dans getFromDirectory :: Fehler in getFromDirectory :: Error en getFromDirectory :: Ошибка в getFromDirectory :: خطأ في getFromDirectory
 // No matching page sections detected from files. Files must match the script's naming scheme :: Aucune section de page correspondante détectée dans les fichiers. Les fichiers doivent correspondre au schéma de nommage du script :: Keine Seitenbereiche aus den Dateien erkannt. Dateien müssen dem Namensschema des Skriptes entsprechen :: No se detectaron secciones de página coincidentes en los archivos. Los archivos deben coincidir con el esquema de nomenclatura del script :: Не обнаружены соответствующие разделы страниц в файлах. Файлы должны соответствовать схеме именования скрипта :: لم يتم اكتشاف أقسام صفحة مطابقة من الملفات. يجب أن تتطابق الملفات مع مخطط التسمية الخاص بالبرنامج النصي
-// Settings from an older version of the script were found. Using default settings. :: Des paramètres d'une ancienne version du script ont été trouvés. Utilisation des paramètres par défaut. :: Es wurden Einstellungen von einer älteren Version des Skripts gefunden. Es werden die Standardeinstellungen verwendet. :: Se encontraron configuraciones de una versión anterior del script. Usando configuraciones predeterminadas. :: Найдены настройки от старой версии скрипта. Используются настройки по умолчанию. :: تم العثور على إعدادات من إصدار قديم من البرنامج النصي. استخدام الإعدادات الافتراضية.
+// Incompatible settings were found. Using default settings. :: Des paramètres incompatibles ont été trouvés. Utilisation des paramètres par défaut. :: Inkompatible Einstellungen wurden gefunden. Es werden die Standardeinstellungen verwendet. :: Se encontraron configuraciones incompatibles. Usando configuración predeterminada. :: Обнаружены несовместимые настройки. Используются настройки по умолчанию. :: تم العثور على إعدادات غير متوافقة. استخدام الإعدادات الافتراضية.
+// Workfolder from last settings not available. Reverting to default folder. :: Le dossier de travail des derniers paramètres n'est pas disponible. Retour au dossier par défaut. :: Arbeitsordner aus letzten Einstellungen nicht verfügbar. Zurück zum Standardordner. :: La carpeta de trabajo de la última configuración no está disponible. Volviendo a la carpeta predeterminada. :: Рабочая папка из последних настроек недоступна. Возврат к папке по умолчанию. :: مجلد العمل من الإعدادات الأخيرة غير متوفر. العودة إلى المجلد الافتراضي.
+// Export preset from last settings not available. Reverting to default preset. :: Le préréglage d'exportation des derniers paramètres n'est pas disponible. Retour au préréglage par défaut. :: Exportvorgabe aus letzten Einstellungen nicht verfügbar. Zurück zur Standardvorgabe. :: El ajuste preestablecido de exportación de la última configuración no está disponible. Volviendo al ajuste preestablecido predeterminado. :: Экспортный пресет из последних настроек недоступен. Возврат к пресету по умолчанию. :: الإعداد المسبق للتصدير من الإعدادات الأخيرة غير متوفر. العودة إلى الإعداد المسبق الافتراضي.
 // This script requires the InDesign setting 'General > Numbering > Absolute Page Numbering'. It will apply this setting. Do you want to proceed? :: Ce script nécessite le paramètre InDesign 'Général > Numérotation > Numérotation absolue des pages'. Il appliquera ce paramètre. Voulez-vous continuer ? :: Dieses Skript erfordert die InDesign-Einstellung 'Allgemein > Nummerierung > Absolute Seitennummerierung'. Es wird diese Einstellung anwenden. Möchten Sie fortfahren? :: Este script requiere la configuración de InDesign 'General > Numeración > Numeración de página absoluta'. Aplicará esta configuración. ¿Desea continuar? :: Этот скрипт требует настройки InDesign 'Общие > Нумерация > Абсолютная нумерация страниц'. Он применит эту настройку. Хотите продолжить? :: يتطلب هذا البرنامج النصي إعداد InDesign 'عام > الترقيم > ترقيم الصفحات المطلق'. سيتم تطبيق هذا الإعداد. هل تريد المتابعة؟
 // Setting required :: Paramètre requis :: Einstellung erforderlich :: Configuración requerida :: Требуется настройка :: الإعداد مطلوب
 // optional name :: nom facultatif :: optionaler Name :: nombre opcional :: необязательное имя :: اسم اختياري
@@ -89,6 +95,8 @@
 // An error occurred while retrieving section information: :: Une erreur s'est produite lors de la récupération des informations de section : :: Ein Fehler ist beim Abrufen der Abschnittsinformationen aufgetreten: :: Se produjo un error al recuperar la información de la sección: :: Произошла ошибка при получении информации о разделе: :: حدث خطأ أثناء استرداد معلومات القسم:
 // File has no directory path until saved. :: Le fichier n'a pas de chemin de répertoire tant qu'il n'est pas enregistré. :: Datei hat keinen Verzeichnispfad, bis sie gespeichert wird. :: El archivo no tiene ruta de directorio hasta que se guarde. :: У файла нет пути к каталогу, пока он не сохранен. :: ليس للملف مسار دليل حتى يتم حفظه.
 // </L10N>
+
+var SCRIPT_VERSION = "2.01"; // Date: 2024-09-11
 
 var L10N = L10N || (function()
 {
@@ -143,17 +151,6 @@ var L10N = L10N || (function()
     return {locale: ln};
 })();
 
-var SCRIPT_VERSION = "2.0"; // Date: 2024-09-07
-
-var d = app.activeDocument;
-
-var settings = loadSettings(d) || {
-    /* DEFAULT SETTINGS */
-    pageRanges: "",
-    folder: "/",
-    exportPreset: "[PDF/X-4:2008]",
-    windowBounds: undefined
-};
 
 // Polyfills 
 Number.prototype.isEven = function () {
@@ -164,6 +161,7 @@ if (!String.prototype.trim) {
         return this.replace(/^\s+|\s+$/g, '');
     };
 }
+
 // Function for trimming that can handle both strings and null/undefined
 function safeTrim(str) {
     return str == null ? '' : String(str).trim();
@@ -186,12 +184,14 @@ function checkAndSetAbsolutePageNumbering() {
 function getFileVersion(path, baseName, identifier) {
     var files = Folder(path).getFiles(baseName + '*_' + identifier + '_v*.pdf');
     var highestVersion = 0;
-    for (var i = 0; i < files.length; i++) {
-        var match = files[i].name.match(/_v(\d+)\.pdf$/);
-        if (match) {
-            var version = parseInt(match[1], 10);
-            if (version > highestVersion) {
-                highestVersion = version;
+    if (files) {
+        for (var i = 0; i < files.length; i++) {
+            var match = files[i].name.match(/_v(\d+)\.pdf$/);
+            if (match) {
+                var version = parseInt(match[1], 10);
+                if (version > highestVersion) {
+                    highestVersion = version;
+                }
             }
         }
     }
@@ -201,6 +201,7 @@ function getFileVersion(path, baseName, identifier) {
 function getLocalizedPageIdentifier() {
     return "_" + __("Pages") + "_";
 }
+
 
 function getFromDirectory(_path) {
     /**
@@ -386,8 +387,16 @@ function getActiveSection() {
 
 
 
-
 /* ################## MAIN ################## */
+var d = app.activeDocument;
+
+var settings = loadSettings(d) || {
+    /* DEFAULT SETTINGS ... Note: if we change the schema of the settings then remember to adjust the loadSettings validation! */
+    pageRanges: "",
+    folder: "/",
+    exportPreset: "[PDF/X-4:2008]",
+    windowBounds: undefined
+};
 
 checkAndSetAbsolutePageNumbering();
 
@@ -545,14 +554,16 @@ w.tabs.settingsPanel.folderGroup.folderButton.onClick = withButtonWorkaround(
     w.tabs.settingsPanel.folderGroup.folderButton,
     function() {
         if (d.isValid && d.saved && d.fullName !== null) {
+            //preparing startpath for the following selectDlg
             var defaultFolder = getFormattedPath(w.tabs.settingsPanel.folderGroup.folderInput.text, d.fullName.path);
             if (!defaultFolder.exists) {
-                defaultFolder = Folder(d.fullName.path);
+                defaultFolder = Folder(d.fullName.path); 
             }
+            //now let user select a folder
             var selectedFolder = defaultFolder.selectDlg(__("Select PDF folder"));
             if (selectedFolder) {
                 var relativePath = selectedFolder.fsName.replace(decodeURI(d.filePath.fsName), '');
-                w.tabs.settingsPanel.folderGroup.folderInput.text = relativePath + "\\";
+                w.tabs.settingsPanel.folderGroup.folderInput.text = settings.folder = relativePath + "\\";
             }
         }
         else {
@@ -776,30 +787,29 @@ function exportPDFs(validatedInputs) {
 }
 
 // Main execution block
-var result = w.show();
-if (result == 1) { // The window was closed with the OK button
-    app.doScript(function() {
-        try {
-            exportPDFs(globalValidatedInputs);
-            // Save the settings after the export
-            settings.folder = w.tabs.settingsPanel.folderGroup.folderInput.text;
-            settings.exportPreset = w.tabs.settingsPanel.presetGroup.presetDropdown.selection.text;
-            settings.pageRanges = globalValidatedInputs.join('\n');
-            // The window position and size was updated by onclose-event in settings
-            saveSettings(d, settings);
-        } catch (e) {
-            alert(__("An error occurred during the export:") + " " + e.message);
-        }
-    }, ScriptLanguage.JAVASCRIPT, undefined, UndoModes.FAST_ENTIRE_SCRIPT);
-} else if (result == 2) { // The window was closed with the cancel button
+
+app.doScript(function() {
+    var result = w.show();
+    if (result == 1) { // The window was closed with the OK button
+            try {
+                exportPDFs(globalValidatedInputs);
+                // Save the settings after the export
+                settings.folder = w.tabs.settingsPanel.folderGroup.folderInput.text;
+                settings.exportPreset = w.tabs.settingsPanel.presetGroup.presetDropdown.selection.text;
+                settings.pageRanges = globalValidatedInputs.join('\n');
+                // The window position and size was already updated by onclose-event in settings
+            } catch (e) {
+                alert(__("An error occurred during the export:") + " " + e.message);
+            }
+    } 
     saveSettings(d, settings);
-}
+    unloadDialog(w);
+    app.pdfExportPreferences.viewPDF = _backupViewPDF;
 
-unloadDialog(w);
-
-app.pdfExportPreferences.viewPDF = _backupViewPDF;
+}, ScriptLanguage.JAVASCRIPT, undefined, UndoModes.FAST_ENTIRE_SCRIPT, "exportPageRanges");
 
 /* ################## END MAIN ################## */
+
 
 
 /* ################ AUXILIARY ############## */
@@ -809,16 +819,14 @@ function getFormattedPath(inputPath, basePath) {
     if ($.os.indexOf("Mac") > -1) {
         // macOS path handling
         if (inputPath.charAt(0) === '/') {
-            // It's an absolute path
             return Folder(inputPath);
         } else {
-            // It's a relative path
             return Folder(basePath + '/' + inputPath);
         }
     } else {
         // Windows path handling
         if (inputPath.match(/^[a-zA-Z]:/)) {
-            return Folder(formatPath(inputPath));
+            return Folder(formatPath(inputPath) + '/' + inputPath);
         } else {
             return Folder(basePath + inputPath);
         }
@@ -884,7 +892,42 @@ function loadSettings(doc) {
     var settingsString = doc.extractLabel("script_exportPageRangeSettings");
     if (settingsString) {
         var settingsArray = settingsString.split("|||");
-        if (settingsArray[0] === SCRIPT_VERSION) {
+        
+        function isValidSettingsArray(arr) {
+            if (arr.length !== 5) return false;
+            if (!isValidVersion(arr[0])) return false;
+            if (typeof arr[1] !== 'string' || !isValidPageRanges(arr[1])) return false;
+            if (typeof arr[2] !== 'string' || typeof arr[3] !== 'string') return false;
+            if (!isValidWindowBounds(arr[4])) return false;
+            return true;
+        }
+
+        function isValidVersion(str) {
+            var parts = str.split('.');
+            if (parts.length !== 2) return false;
+            return !isNaN(parseFloat(parts[0])) && !isNaN(parseFloat(parts[1]));
+        }
+
+        function isValidPageRanges(str) {
+            return str === '' || /^\d/.test(str);
+        }
+
+        function isValidWindowBounds(str) {
+            if (str === '') return true;
+            var parts = str.split(',');
+            if (parts.length !== 4) return false;
+            for (var i = 0; i < parts.length; i++) {
+                if (isNaN(parseFloat(parts[i]))) return false;
+            }
+            return true;
+        }
+        
+        function isValidExportPreset(preset) {
+            return app.pdfExportPresets.itemByName(preset).isValid;
+        }
+        
+        // check if scriptversion is still same and fits the settings OR check if old settings are still useable
+        if (settingsArray[0] === SCRIPT_VERSION || isValidSettingsArray(settingsArray)) { 
             var windowBounds = undefined;
             if (settingsArray[4]) {
                 var boundsArray = settingsArray[4].split(',');
@@ -897,14 +940,25 @@ function loadSettings(doc) {
                     };
                 }
             }
+            // test if the folder from settings still exists
+            var folder = getFormattedPath(settingsArray[2], doc.fullName.path);
+            if (!folder.exists) {
+                settingsArray[2] = "/"; // Reset to default if folder doesn't exist
+                alert(__("Workfolder from last settings not available. Reverting to default folder."));
+            }
+            var exportPreset = settingsArray[3];
+            if (!isValidExportPreset(exportPreset)) {
+                exportPreset = "[PDF/X-4:2008]"; // Reset to default if preset doesn't exist
+                alert(__("Export preset from last settings not available. Reverting to default preset."));
+            }
             return {
                 pageRanges: settingsArray[1] || "",
-                folder: settingsArray[2] || "/",
-                exportPreset: settingsArray[3] || "[PDF/X-4:2008]",
+                folder: settingsArray[2],
+                exportPreset: exportPreset,
                 windowBounds: windowBounds
             };
         } else {
-            alert(__("Settings from an older version of the script were found. Using default settings."));
+            alert(__("Incompatible settings were found. Using default settings."));
         }
     }
     return false;
@@ -914,6 +968,8 @@ function unloadDialog(dialog) {
     if (dialog && dialog.isValid) {
         try {
             dialog.destroy();
+            dialog = null;
+			delete dialog;
         } catch (e) {
             alert("Error while unloading dialog: " + e);
         }
