@@ -852,11 +852,31 @@ function exportPDFs(validatedInputs) {
                 // Für Mac: Nutze File-Objekt für sichere Pfadkonstruktion
                 var tempFile = new File(_path + "/" + fileName);
                 filePath = tempFile.fsName;
+                
+                // Debug-Logging für Mac in die Debug-Datei
+                if (DEBUG_MAC) {
+                    try {
+                        var logFile = new File(Folder.desktop + "/exportPDF_debug.txt");
+                        logFile.open('a');
+                        logFile.writeln("\n--- Export Path Construction " + new Date().toISOString() + " ---");
+                        logFile.writeln("Base Directory: " + _path);
+                        logFile.writeln("File Name: " + fileName);
+                        logFile.writeln("Combined Path: " + _path + "/" + fileName);
+                        logFile.writeln("Converted Path: " + filePath);
+                        logFile.writeln("File exists: " + File(filePath).exists);
+                        logFile.writeln("Parent folder exists: " + Folder(_path).exists);
+                        logFile.writeln("Parent folder path: " + Folder(_path).fsName);
+                        logFile.close();
+                    } catch(e) {
+                        $.writeln("Warning: Could not write to debug log: " + e);
+                    }
+                }
             } else {
                 // Für Windows: Direkte Pfadzusammensetzung
                 filePath = _path + "/" + fileName;
             }
 
+            // Speichere Export-Informationen
             var exportInfo = {
                 fileName: fileName,
                 filePath: filePath,
@@ -895,8 +915,18 @@ function exportPDFs(validatedInputs) {
             return true;
         } catch (e) {
             if (DEBUG_MAC && $.os.indexOf("Mac") > -1) {
-                $.writeln("Export error: " + e.message);
-                $.writeln("Failed path: " + exportInfo.filePath);
+                try {
+                    var logFile = new File(Folder.desktop + "/exportPDF_debug.txt");
+                    logFile.open('a');
+                    logFile.writeln("\n--- Export Error " + new Date().toISOString() + " ---");
+                    logFile.writeln("Error message: " + e.message);
+                    logFile.writeln("Failed path: " + exportInfo.filePath);
+                    logFile.writeln("Page range: " + exportInfo.pageRange);
+                    logFile.writeln("File exists: " + File(exportInfo.filePath).exists);
+                    logFile.close();
+                } catch(le) {
+                    $.writeln("Warning: Could not write error to debug log: " + le);
+                }
             }
             return false;
         }
