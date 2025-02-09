@@ -846,10 +846,20 @@ function exportPDFs(validatedInputs) {
             var fileName = String(d.name).replace(/\..+$/, '') + localizedPageIdentifier + 
                          _pageRange + (_label ? "_" + _label : "") + _versionLabel + '.pdf';
             
-            // Speichere Export-Informationen
+            // Mac-sichere Pfadzusammensetzung
+            var filePath;
+            if ($.os.indexOf("Mac") > -1) {
+                // Für Mac: Nutze File-Objekt für sichere Pfadkonstruktion
+                var tempFile = new File(_path + "/" + fileName);
+                filePath = tempFile.fsName;
+            } else {
+                // Für Windows: Direkte Pfadzusammensetzung
+                filePath = _path + "/" + fileName;
+            }
+
             var exportInfo = {
                 fileName: fileName,
-                filePath: _path + "/" + fileName,
+                filePath: filePath,
                 pageRange: _pageRange,
                 firstNumber: _firstnumber,
                 label: _label,
@@ -884,6 +894,10 @@ function exportPDFs(validatedInputs) {
             successfulExports++;
             return true;
         } catch (e) {
+            if (DEBUG_MAC && $.os.indexOf("Mac") > -1) {
+                $.writeln("Export error: " + e.message);
+                $.writeln("Failed path: " + exportInfo.filePath);
+            }
             return false;
         }
     }
