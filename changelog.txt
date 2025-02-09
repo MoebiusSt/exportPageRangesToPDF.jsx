@@ -1,5 +1,9 @@
 VERSIONS
 
+2.02, Date: 2025-02-08
+- Added smart handling of locked PDF files with retry-mechanism
+- Added HELP-Button with feature descriptions and examples
+
 2.01, Date: 2024-09-11
 - Added check for existence of workfolder and PDF export preset when loading last preferences 
 - Added version compatibility check when loading old preferences and use them if possible
