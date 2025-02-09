@@ -3,6 +3,7 @@ VERSIONS
 2.02, Date: 2025-02-08
 - Added smart handling of locked PDF files with retry-mechanism
 - Added HELP-Button with feature descriptions and examples
+- Changed path handling for MacOS. Added debug logging: please send resulting "exportPDF_debug.txt" to me, I#öö try to make this script work on mac
 
 2.01, Date: 2024-09-11
 - Added check for existence of workfolder and PDF export preset when loading last preferences 
