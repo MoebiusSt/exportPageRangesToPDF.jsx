@@ -1,5 +1,10 @@
 VERSIONS
 
+2.03, Date: 2025-04-02
+- Improved input validation and cleaning of control characters from section names and labels.
+- Special character handling: Extended fixEncoding() function that now uses removeControlChars() and safeTrim()
+- Attempt to improved Mac compatibility/path handling on macOS
+
 2.02, Date: 2025-02-08
 - Added smart handling of locked PDF files with retry-mechanism
 - Added HELP-Button with feature descriptions and examples
