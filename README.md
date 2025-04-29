@@ -6,7 +6,7 @@ This InDesign script (tested in Adobe Indesign CC 20.1 x64, and should run in ol
 
 ## Current Version
 
- v2.02, Date: 2025-02-08
+ v2.03, Date: 2025-04-02
 
 ## Features
 
