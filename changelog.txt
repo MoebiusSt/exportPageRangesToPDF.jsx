@@ -1,5 +1,9 @@
 VERSIONS
 
+2.04, Date: 2025-04-30
+- Further corrections in path handling of the output-path-settings-dialog and more validation
+- Entered fallback to seriell pdf export via exportFile() for when asynchronousExportFile() might not be available (not tested) :/
+
 2.03, Date: 2025-04-02
 - Improved input validation and cleaning of control characters from section names and labels.
 - Special character handling: Extended fixEncoding() function that now uses removeControlChars() and safeTrim()
