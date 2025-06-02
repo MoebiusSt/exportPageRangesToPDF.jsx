@@ -1,5 +1,10 @@
 VERSIONS
 
+2.06 (2025-06-02)
+- Implemented central logger-module with log-Levels (debug, info, warn, error) for consistent error handling and debugging, especially for file accesses and PDF-exports
+- Improved cross-platform compatibility for Windows and macOS with optimised path processing
+- Better handling of special characters in file names and section names
+
 2.04, Date: 2025-04-30
 - Further corrections in path handling of the output-path-settings-dialog and more validation
 - Entered fallback to seriell pdf export via exportFile() for when asynchronousExportFile() might not be available (not tested) :/
