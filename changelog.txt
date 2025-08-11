@@ -1,4 +1,9 @@
 VERSIONS
+2.08 – 2025-08-11
+- Path logic on macOS unified and made more robust.
+- Labels in file names sanitised.
+- No global overwriting of decodeURIComponent.
+- Window position storage fixed.
 
 2.07 – 2025-08-11
 - Added user-configurable Page-Range prefix used in the PDF filename schema (with silent sanitization in Settings).
