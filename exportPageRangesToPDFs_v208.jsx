@@ -882,7 +882,7 @@ var dialogString =
                     orientation: 'row', \
                     alignChildren: ['center', 'center'], \
                     spacing: 10, \
-                    minusButton: Button { text: '–', preferredSize: [30, -1] }, \
+                    minusButton: Button { text: '-', preferredSize: [30, -1] }, \
                     okButton: Button { text: '" + __("Export PDFs") + "', properties: {name: 'ok'} }, \
                     cancelButton: Button { text: '" + __("Cancel") + "', properties: {name: 'cancel'} } \
                 } \
@@ -1121,8 +1121,7 @@ function exportExists(_path, pageRange, label) {
         var baseName = String(d.name).replace(/\..+$/, '');
         var safeLabel = label ? sanitizeFileNameSegment(label) : '';
         var fileBase = baseName + localizedPageIdentifier + pageRange + (safeLabel ? "_" + safeLabel : "");
-        var regex = new RegExp("^" + escapeRegExp(fileBase) + "_v\\\
-d+\\.pdf$", "i");
+        var regex = new RegExp("^" + escapeRegExp(fileBase) + "_v\\d+\\.pdf$", "i");
         var files = folder.getFiles(function(file) { return regex.test(decodeURI(file.name)); });
         return files && files.length > 0;
     } catch (e) {
