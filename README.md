@@ -53,7 +53,7 @@ The label in brackets is optional. Do not use commas.
 Exported PDF files will be named according to this schema:
 
 ```
-[DocumentName]_pages_[PageRange]_[Label-from-brackets-if-given]_v[Version].pdf
+[DocumentName]_[prefix]_[PageRange]_[Label-from-brackets-if-given]_v[Version].pdf
 ```
 
 #### Example Output:
