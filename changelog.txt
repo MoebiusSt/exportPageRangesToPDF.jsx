@@ -1,5 +1,11 @@
 VERSIONS
 
+2.07 – 2025-08-11
+- Added user-configurable Page-Range prefix used in the PDF filename schema (with silent sanitization in Settings).
+- Added comfort dialog with page range prefix detection in output-folder to ask user to use on of the found prefixes.
+- Updated filename schema to: [DocumentName]_[prefix]_[PageRange]_[Label]_v[autoVersion].pdf (default prefix remains localized “Pages/Seiten/…”).
+- Implemented [-] button for comfort that appends overwrite-markers to ranges with existing exports in the target folder.
+
 2.06 (2025-06-02)
 - Implemented central logger-module with log-Levels (debug, info, warn, error) for consistent error handling and debugging, especially for file accesses and PDF-exports
 - Improved cross-platform compatibility for Windows and macOS with optimised path processing
