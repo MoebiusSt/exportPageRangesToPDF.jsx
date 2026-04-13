@@ -1,4 +1,11 @@
 VERSIONS
+2.10 - 2026-04-13
+- decodeURIComponentSafe (line 1613) now groups consecutive %XX tokens into a byte array and decodes this as UTF-8. %C3%84 therefore directly yields Ä instead of Ã + \x84.
+- The `fixEncoding` function has another latent bug (lines 391–394 appear identical in the editor because the C1 bytes are invisible). With the new `decodeURIComponentSafe`, no garbled strings are produced there at all, so this is no longer an issue.
+
+2.09 - 2026-02-25
+- Fixed: Hidden modal dialog on Windows: Added app.activate() before showing the prefix-adoption dialog in getFromDirectory(). Without this, the modal dialog could appear behind other windows on Windows, blocking all InDesign interaction with no way to recover.
+
 2.08 – 2025-08-11
 - Path logic on macOS unified and made more robust.
 - Labels in file names sanitised.
