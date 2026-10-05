@@ -1,4 +1,10 @@
 VERSIONS
+2.12 - 2026-10-05
+- Fixed: Custom PDF presets were modified permanently. The script set pdfPageLayout (two-up facing / two-up cover page, depending on the first page) directly on the user's own preset and never restored it, so manual PDF exports afterwards unexpectedly showed spreads in the viewer. Now every export (built-in AND custom presets) runs on a temporary copy 'Temp_<preset name>', which is removed afterwards.
+- A leftover temp preset from an aborted run is removed before a new one is created (otherwise renaming the copy would fail).
+.11 - 2026-06-30
+- Fixed getFileVersion() so versioning works when a label/identifier contains characters that sanitizeFileNameSegment() rewrites (esp. '/' and '\', which a glob mask reads as path separators). Previously such labels never matched existing files, so every run reported v1 and overwrote the existing _v1 file.
+
 2.10 - 2026-04-13
 - decodeURIComponentSafe (line 1613) now groups consecutive %XX tokens into a byte array and decodes this as UTF-8. %C3%84 therefore directly yields Ä instead of Ã + \x84.
 - The `fixEncoding` function has another latent bug (lines 391–394 appear identical in the editor because the C1 bytes are invisible). With the new `decodeURIComponentSafe`, no garbled strings are produced there at all, so this is no longer an issue.

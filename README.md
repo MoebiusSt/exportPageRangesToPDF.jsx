@@ -6,7 +6,7 @@ This InDesign script (tested in Adobe Indesign CC 20.1 x64, and should run in ol
 
 ## Current Version
 
- v2.11, Date: 2026-06-30
+ v2.12, Date: 2026-10-05
 
 ## Features
 
@@ -17,7 +17,7 @@ This InDesign script (tested in Adobe Indesign CC 20.1 x64, and should run in ol
   - Previously exported PDFs in the target directory
   - Active document's sections and section markers
   - Currently viewed section(s) for quick versioned export
-- Handle odd/even page starts in PDF view settings (cover sheet YES/NO)
+- Handle odd/even page starts in PDF view settings (cover sheet YES/NO) - applied to a temporary copy of the preset, your own PDF presets stay untouched
 - Automatic versioning for exported PDFs (can be overridden)
 - Saves settings to a document script label for persistence
 - Asynchronous PDF export with retry mechanism for blocked files
